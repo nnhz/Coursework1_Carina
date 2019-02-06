@@ -1,3 +1,9 @@
 <resources>
     <string name="app_name">Coursework1_Carina</string>
+
+    <string name="subscribe_button">Subscribe MQTT</string>
+    <string name="publish_button">Publish MQTT</string>
+
+
+
 </resources>
