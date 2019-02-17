@@ -1,8 +1,18 @@
 <resources>
-    <string name="app_name">Coursework1_Carina</string>
+    <string name="app_name">Carina</string>
 
-    <string name="subscribe_button">Subscribe MQTT</string>
-    <string name="publish_button">Publish MQTT</string>
+    <string name="reconnect_button">Reconnect to broker</string>
+    <string name="sleep_button">Baby is sleeping</string>
+    <string name="default_text_info">Baby is awake</string>
+    <string name="moon_icon_description">Moon icon description</string>
+    <string name="loading_text_content">Loading...</string>
+    <string name="connection_down_text">Broker Down. Please try to reconnect</string>
+    <string name="calibrate_text">Calibrating...</string>
+    <string name="calibrate_button">Calibrate</string>
+    <string name="crib_description">Dimension of crib</string>
+    <string name="crib_width_text">Dimension: </string>
+    <string name="return_button">Return</string>
+
 
 
 

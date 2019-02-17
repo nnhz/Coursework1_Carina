@@ -3,4 +3,13 @@
     <color name="colorPrimary">#3c50d6</color>
     <color name="colorPrimaryDark">#0c209f</color>
     <color name="colorAccent">#FF4081</color>
+
+    <color name="homePageColor">#9575CD</color>
+    <color name="pageLoadingColor">#734F96</color>
+    <color name="brokerDownColor">#734F96</color>
+    <color name="homePageSleepColor">#311B92</color>
+    <color name="calibratePageColor">#3C50D6</color>
+
+    <color name="textInfoColor">#FFFFFF</color>
+
 </resources>
