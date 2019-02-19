@@ -60,6 +60,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        // Link variables with UI elements
         buttonSleep = findViewById(R.id.sleep);
         buttonReconnect = findViewById(R.id.reconnect);
         buttonCalibrate = findViewById(R.id.calibrate);
@@ -73,10 +74,11 @@ public class MainActivity extends AppCompatActivity {
         cribDimension = findViewById(R.id.crib_dimension);
         cribImage = findViewById(R.id.crib_image);
 
+        // Initialize string variables
         distance = "0";
         state = "monitorOff";
 
-
+        // Set instructions for the buttons
         buttonSleep.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -135,8 +137,9 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
-
+    // Set up MQTT connection
     public void MQTTConnect(){
+
         String clientId = MqttClient.generateClientId();
         client = new MqttAndroidClient(this.getApplicationContext(), "tcp://ee-estott-octo.ee.ic.ac.uk:1883",
                 clientId);
@@ -161,7 +164,9 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+    // Subscribe to certain topics
     public void Subscribe(String topic){
+
         try {
             if (client.isConnected()) {
                 client.subscribe(topic, 1);
@@ -175,8 +180,7 @@ public class MainActivity extends AppCompatActivity {
                     public void messageArrived(String topic, MqttMessage message) throws Exception {
                         System.out.println(topic+": "+ message.toString());
 
-                        // depending on the topic, do different actions
-
+                        // Different actions depending on the topic
                         if (topic.equals("IC.embedded/Carina/calibrateResult")) {
                             dimension = message.toString();
                         }
@@ -207,7 +211,7 @@ public class MainActivity extends AppCompatActivity {
                                 cribDimension.setVisibility(View.INVISIBLE);
                                 buttonReturn.setVisibility(View.INVISIBLE);
 
-                            } else { // in state "calibrateDone"
+                            } else {  // in state "calibrateDone"
                                 homepage.setVisibility(View.GONE);
                                 calibratePage.setVisibility(View.VISIBLE);
                                 calibrateInfo.setText("Calibration Done!");
@@ -215,18 +219,14 @@ public class MainActivity extends AppCompatActivity {
                                 cribDimension.setVisibility(View.VISIBLE);
                                 buttonReturn.setVisibility(View.VISIBLE);
                                 cribDimension.setText(dimension);
-
                             }
-
-
                         }
+
                         if (topic.equals("IC.embedded/Carina/sleep")) {
                             distance = message.toString();
                             Log.v("baby moved", distance);
-                            sendNotification();  // baby moved (distance changed), now send notification
+                            sendNotification();  // Baby moved/Distance changed, send notification
                         }
-
-
                     }
 
                     @Override
@@ -241,13 +241,15 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+    // Publish to topic "mode" to change state between monitorOn and monitorOff
     public void Publish() throws MqttException {
-        // changes state between monitorOn and monitorOff
+
         String topic = "IC.embedded/Carina/mode";
         String payload;
+
         if (state.equals("monitorOff")){ //state == "0"
             payload = "monitorOn";
-        } else { //state == "monitorOn" or "calibrateDone"
+        } else {  // in state "monitorOn" or "calibrateDone"
             payload = "monitorOff";
         }
         byte[] encodedPayload = new byte[0];
@@ -260,8 +262,9 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+    // Publish to topic "mode" to start calibration
     public void PublishC() throws MqttException {
-        // to start calibration
+
         String topic = "IC.embedded/Carina/mode";
         String payload = "calibrate";
 
@@ -275,7 +278,7 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-
+    // Check Broker connection
     public class ConnectTask extends AsyncTask<String, Void, String> {
 
         @Override
@@ -303,7 +306,7 @@ public class MainActivity extends AppCompatActivity {
                     handler.postDelayed(this, 1000);
                 }
             };
-            //Start
+            // Start
             handler.postDelayed(runnable, 1000);
 
         }
@@ -320,18 +323,15 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+    // Send notification (with sound and vibration)
     public void sendNotification() {
-        // send notification (with sound and vibration)
-        NotificationCompat.Builder mBuilder =
-                new NotificationCompat.Builder(MainActivity.this)
+        NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(MainActivity.this)
                         .setSmallIcon(R.drawable.moon)
                         .setContentTitle("Baby awake notification")
                         .setSound(RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION))
                         .setContentText("Your baby is awake");
 
-        NotificationManager mNotificationManager =
-
-                (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+        NotificationManager mNotificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
 
         mNotificationManager.notify(001, mBuilder.build());
 
@@ -339,9 +339,9 @@ public class MainActivity extends AppCompatActivity {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             v.vibrate(VibrationEffect.createOneShot(500, VibrationEffect.DEFAULT_AMPLITUDE));
         } else {
-            //deprecated in API 26
             v.vibrate(1000);
         }
+
     }
 
 }
