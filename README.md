@@ -1,3 +1,3 @@
 # Coursework1_Carina
 
-This repository has the Android Studio project for the App and the files for Raspberry Pi (in Raspberry_Pi_Files folder).
+This repository is for Embedded Systems Coursework 1 Group Carina. Please see Raspberry_Pi_Files folder for script and supplemntary file for Raspberry Pi. Rest of the files in this repo are for the Android Studio project for the app.
